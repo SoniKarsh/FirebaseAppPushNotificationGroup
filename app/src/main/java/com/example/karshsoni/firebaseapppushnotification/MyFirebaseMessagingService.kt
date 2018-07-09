@@ -43,52 +43,102 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         Log.d(TAG, "onMessageReceived: notificationBody $notificationBody")
 
         notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        bundle_notification_id = "bundle_notification_" + bundleNotificationId;
-        var resultIntent = Intent(this@MyFirebaseMessagingService, MainActivity::class.java)
-        resultIntent.putExtra("notification", "Summary Notification Clicked")
-        resultIntent.putExtra("notification_id", bundleNotificationId)
-        resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        var resultPendingIntent = PendingIntent.getActivity(this, 0,
-                resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            if (notificationManager.notificationChannels.size < 2) {
-                val groupChannel = NotificationChannel(groupChannelId, "bundle_channel_name", NotificationManager.IMPORTANCE_LOW)
-                notificationManager.createNotificationChannel(groupChannel)
-                val channel = NotificationChannel(channelId, "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
-                notificationManager.createNotificationChannel(channel)
+        if(notificationData == "Hey"){
+            bundle_notification_id = "bundle_notification_" + bundleNotificationId;
+            var resultIntent = Intent(this@MyFirebaseMessagingService, MainActivity::class.java)
+            resultIntent.putExtra("notification", "Summary Notification Clicked")
+            resultIntent.putExtra("notification_id", bundleNotificationId)
+            resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            var resultPendingIntent = PendingIntent.getActivity(this, 0,
+                    resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                if (notificationManager.notificationChannels.size < 2) {
+                    val groupChannel = NotificationChannel(groupChannelId, "bundle_channel_name", NotificationManager.IMPORTANCE_LOW)
+                    notificationManager.createNotificationChannel(groupChannel)
+                    val channel = NotificationChannel(channelId, "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
+                    notificationManager.createNotificationChannel(channel)
+                }
             }
+            val summaryNotificationBuilder = NotificationCompat.Builder(this, "bundle_channel_id")
+                    .setGroup(bundle_notification_id)
+                    .setGroupSummary(true)
+//                .setContentTitle("New Notification $singleNotificationId")
+                    .setContentTitle(notificationTitle)
+//                .setContentText("Content for the notification")
+                    .setContentText(notificationBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(resultPendingIntent)
+            if (singleNotificationId == bundleNotificationId)
+                singleNotificationId = bundleNotificationId + 1
+            else
+                singleNotificationId++
+
+            resultIntent = Intent(this, MainActivity::class.java)
+            resultIntent.putExtra("notification", "Single notification clicked")
+            resultIntent.putExtra("notification_id", singleNotificationId)
+            resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            resultPendingIntent = PendingIntent.getActivity(this, singleNotificationId, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val notification = NotificationCompat.Builder(this, "channel_id")
+                    .setGroup(bundle_notification_id)
+//                .setContentTitle("New Notification $singleNotificationId")
+                    .setContentTitle(notificationTitle)
+//                .setContentText("Content for the notification")
+                    .setContentText(notificationBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setGroupSummary(false) // False
+                    .setContentIntent(resultPendingIntent)
+
+            notificationManager.notify(System.currentTimeMillis().toInt(), notification.build())
+            notificationManager.notify(bundleNotificationId, summaryNotificationBuilder.build())
+        }else{
+            bundle_notification_id = "bundle_notification_" + bundleNotificationId;
+            var resultIntent = Intent(this@MyFirebaseMessagingService, Main2Activity::class.java)
+            resultIntent.putExtra("notification", "Summary Notification Clicked")
+            resultIntent.putExtra("notification_id", bundleNotificationId)
+            resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            var resultPendingIntent = PendingIntent.getActivity(this, 0,
+                    resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                if (notificationManager.notificationChannels.size < 2) {
+                    val groupChannel = NotificationChannel(groupChannelId, "bundle_channel_name", NotificationManager.IMPORTANCE_LOW)
+                    notificationManager.createNotificationChannel(groupChannel)
+                    val channel = NotificationChannel(channelId, "channel_name", NotificationManager.IMPORTANCE_DEFAULT)
+                    notificationManager.createNotificationChannel(channel)
+                }
+            }
+            val summaryNotificationBuilder = NotificationCompat.Builder(this, "bundle_channel_id")
+                    .setGroup(bundle_notification_id)
+                    .setGroupSummary(true)
+//                .setContentTitle("New Notification $singleNotificationId")
+                    .setContentTitle(notificationTitle)
+//                .setContentText("Content for the notification")
+                    .setContentText(notificationBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentIntent(resultPendingIntent)
+            if (singleNotificationId == bundleNotificationId)
+                singleNotificationId = bundleNotificationId + 1
+            else
+                singleNotificationId++
+
+            resultIntent = Intent(this, MainActivity::class.java)
+            resultIntent.putExtra("notification", "Single notification clicked")
+            resultIntent.putExtra("notification_id", singleNotificationId)
+            resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            resultPendingIntent = PendingIntent.getActivity(this, singleNotificationId, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            val notification = NotificationCompat.Builder(this, "channel_id")
+                    .setGroup(bundle_notification_id)
+//                .setContentTitle("New Notification $singleNotificationId")
+                    .setContentTitle(notificationTitle)
+//                .setContentText("Content for the notification")
+                    .setContentText(notificationBody)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setGroupSummary(false) // False
+                    .setContentIntent(resultPendingIntent)
+
+            notificationManager.notify(System.currentTimeMillis().toInt(), notification.build())
+            notificationManager.notify(bundleNotificationId, summaryNotificationBuilder.build())
         }
-        val summaryNotificationBuilder = NotificationCompat.Builder(this, "bundle_channel_id")
-                .setGroup(bundle_notification_id)
-                .setGroupSummary(true)
-//                .setContentTitle("New Notification $singleNotificationId")
-                .setContentTitle(notificationTitle)
-//                .setContentText("Content for the notification")
-                .setContentText(notificationBody)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(resultPendingIntent)
-        if (singleNotificationId == bundleNotificationId)
-            singleNotificationId = bundleNotificationId + 1
-        else
-            singleNotificationId++
 
-        resultIntent = Intent(this, MainActivity::class.java)
-        resultIntent.putExtra("notification", "Single notification clicked")
-        resultIntent.putExtra("notification_id", singleNotificationId)
-        resultIntent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        resultPendingIntent = PendingIntent.getActivity(this, singleNotificationId, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = NotificationCompat.Builder(this, "channel_id")
-                .setGroup(bundle_notification_id)
-//                .setContentTitle("New Notification $singleNotificationId")
-                .setContentTitle(notificationTitle)
-//                .setContentText("Content for the notification")
-                .setContentText(notificationBody)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setGroupSummary(false) // False
-                .setContentIntent(resultPendingIntent)
-
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification.build())
-        notificationManager.notify(bundleNotificationId, summaryNotificationBuilder.build())
 
 //        val notificationIntent = Intent(this, MainActivity::class.java)
 //        val pendingIntent = PendingIntent.getActivity(this, 0,

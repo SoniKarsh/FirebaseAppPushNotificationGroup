@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FirebaseAppPushNotification</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="enter_message">Enter Message</string>
+    <string name="send_notification">Send Notification</string>
+    <string name="enter_notification_message">Enter Notification Message</string>
+    <string name="enter_notification_title">Enter Notification Title</string>
+</resources>

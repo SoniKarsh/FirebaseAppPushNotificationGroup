@@ -139,47 +139,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             notificationManager.notify(bundleNotificationId, summaryNotificationBuilder.build())
         }
 
-
-//        val notificationIntent = Intent(this, MainActivity::class.java)
-//        val pendingIntent = PendingIntent.getActivity(this, 0,
-//                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-//
-////        notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//
-//        notificationManager = NotificationManagerCompat.from(this@MyFirebaseMessagingService)
-//        notificationChannel = NotificationChannel(channelId, text, NotificationManager.IMPORTANCE_HIGH)
-//        notificationChannel.enableLights(true)
-//        notificationChannel.lightColor = Color.BLUE
-//        notificationChannel.enableVibration(false)
-////        notificationManager.createNotificationChannel(notificationChannel)
-//
-//        builder = NotificationCompat.Builder(this@MyFirebaseMessagingService, channelId)
-//                .setContentTitle(notificationTitle)
-//                .setContentText(notificationBody)
-//                .setGroup(group_key)
-//                .setGroupSummary(true)
-//                .setSmallIcon(R.drawable.notification_icon_background)
-//                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.notification_icon_background))
-//                .setContentIntent(pendingIntent)
-//
-//        val summaryNotification = NotificationCompat.Builder(this@MyFirebaseMessagingService, channelId)
-//                .setContentTitle(notificationTitle)
-//                //set content text to support devices running API level < 24
-//                .setContentText("New messages")
-//                .setSmallIcon(R.drawable.ic_action_name)
-//                //build summary info into InboxStyle template
-//                .setStyle(NotificationCompat.InboxStyle()
-//                        .setBigContentTitle("2 new messages"))
-//                //specify which group this notification belongs to
-//                .setGroup(group_key)
-//                //set this notification as the summary for the group
-//                .setGroupSummary(true)
-//                .build()
-//
-//        notificationManager.notify(System.currentTimeMillis().toInt(), builder.build())
-//
-//        notificationManager.notify(3, summaryNotification)
-
     }
 
 
